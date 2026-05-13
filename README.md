@@ -1,20 +1,50 @@
 # ClarityDoc
 
-ClarityDoc is a contract and document intelligence app for SMBs, startups, freelancers, and clinics. It reads business documents and returns a plain-English report covering what the document says, where the risk is, what deadlines matter, and what to negotiate before signing.
+ClarityDoc gives small teams a fast, plain-English first pass on contracts before they sign.
 
-It is built as a production-ready MVP, not a static demo.
+Paste contract text or upload a `.txt`, `.pdf`, or `.docx` file. ClarityDoc reads it server-side, calls a server-side AI provider, validates the response, and returns a focused report: what the document says, what can hurt, what deadlines matter, and what to negotiate.
+
+The product is built for founders, freelancers, clinics, agencies, and small teams that do not always have legal counsel on standby. It helps them prepare better questions before paying for a formal review.
+
+ClarityDoc is informational contract analysis only. It is not legal advice, does not create attorney-client privilege, and does not replace a qualified attorney.
+
+## Live Demo
+
+- App: https://claritydoc-samfresh.netlify.app
+- Judge demo: https://claritydoc-samfresh.netlify.app/dashboard
+- GitHub: https://github.com/Samfresh-ai/claritydoc
+
+The live Devpost demo uses real Gemini analysis and explicit ephemeral storage. That keeps the demo fast for judging, but analysis history can reset when the deployment restarts. Production deployments should use PostgreSQL.
 
 ## What It Does
 
-- Paste contract text or upload `.txt`, `.pdf`, or `.docx` files.
-- Extract document text server-side.
-- Analyze contracts through server-side AI providers.
-- Return structured results validated with Zod.
-- Show a clean report with verdict, summary, risks, obligations, deadlines, actions, and document metadata.
-- Store only document hash, preview, metadata, and analysis result by default.
-- Keep full document text out of storage unless the user explicitly opts in.
+- Accepts pasted contract text and `.txt`, `.pdf`, or `.docx` uploads.
+- Extracts text on the server, away from the browser.
+- Calls AI providers only from server-side code.
+- Validates the model output with Zod before the UI renders it.
+- Shows a clear report with verdict, summary, risks, obligations, deadlines, missing terms, next actions, and document metadata.
+- Stores document hash, preview, metadata, and structured analysis by default.
+- Keeps full document text out of storage unless the user opts in.
 
-ClarityDoc provides informational contract analysis only. It is not legal advice, does not create attorney-client privilege, and does not replace a qualified attorney.
+## Demo Path
+
+1. Open the judge demo: https://claritydoc-samfresh.netlify.app/dashboard
+2. Paste a short agreement, or use this sample:
+
+   ```text
+   SERVICE AGREEMENT. Client pays Vendor $2,000 within 15 days of invoice.
+   Vendor must deliver a prototype by June 30, 2026. Either party may terminate
+   with 5 days notice. Liability is unlimited.
+   ```
+
+3. Click **Analyze**.
+4. Review the verdict, top risks, obligations, deadlines, and before-signing actions.
+
+## Why It Matters
+
+Small teams often sign contracts under time pressure. The risky parts are usually buried in plain sight: unlimited liability, vague termination terms, missing payment dates, broad indemnity, unclear renewal language, or obligations that nobody tracked.
+
+ClarityDoc does the first pass quickly. It does not pretend to be counsel. It gives the user a sharper reading of the document so they can slow down, ask better questions, and avoid signing blind.
 
 ## Tech Stack
 
@@ -22,14 +52,24 @@ ClarityDoc provides informational contract analysis only. It is not legal advice
 - React 19
 - TypeScript
 - Tailwind CSS
-- Prisma + PostgreSQL
-- Zod
-- NVIDIA AI API as primary provider
-- Gemini as server-side fallback provider
+- Prisma + PostgreSQL-ready persistence
+- Google Gemini on the live demo deploy
+- NVIDIA AI provider support
+- Zod response validation
 - PDF and DOCX text extraction
 - Vitest
 - Playwright
 - Docker Compose
+- Netlify deploy
+
+## Engineering Notes
+
+- AI keys stay server-side.
+- Provider responses are treated as untrusted until they pass schema validation.
+- Uploaded filenames are sanitized before storage.
+- Raw document text, prompts, provider keys, and full provider responses are not logged.
+- Anonymous sessions are signed when a session secret is configured.
+- The analysis endpoint includes basic anonymous-session/IP rate limiting.
 
 ## Quick Start
 
