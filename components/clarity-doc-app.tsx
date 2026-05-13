@@ -514,7 +514,7 @@ function LandingHero() {
               Log in
             </a>
             <a
-              href="/login"
+              href="/dashboard"
               className="inline-flex h-11 items-center justify-center rounded-lg bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
             >
               Try it free
@@ -539,14 +539,14 @@ function LandingHero() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
-              href="/login"
+              href="/dashboard"
               className="inline-flex h-13 items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
             >
               <Upload aria-hidden="true" className="h-4 w-4" />
               Analyze a document
             </a>
             <a
-              href="/login"
+              href="/dashboard"
               className="inline-flex h-13 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-6 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
             >
               <FileText aria-hidden="true" className="h-4 w-4" />
@@ -772,7 +772,7 @@ function FeatureCard({
       <h2 className="mt-5 text-xl font-bold text-slate-950">{title}</h2>
       <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
       <a
-        href="/login"
+        href="/dashboard"
         className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700"
       >
         See how it works <ArrowRight aria-hidden="true" className="h-4 w-4" />
