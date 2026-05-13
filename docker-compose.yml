@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: claritydoc
+      POSTGRES_PASSWORD: claritydoc
+      POSTGRES_DB: claritydoc
+    ports:
+      - "5432:5432"
+    volumes:
+      - claritydoc_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U claritydoc -d claritydoc"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  claritydoc_postgres:

@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Document {
+  id               String     @id @default(cuid())
+  sessionId        String     @map("session_id")
+  originalFilename String?    @map("original_filename")
+  documentType     String?    @map("document_type")
+  textHash         String     @map("text_hash")
+  textPreview      String     @map("text_preview")
+  fullText         String?    @map("full_text")
+  createdAt        DateTime   @default(now()) @map("created_at")
+  analyses         Analysis[]
+
+  @@index([sessionId])
+  @@index([textHash])
+  @@map("documents")
+}
+
+model Analysis {
+  id         String   @id @default(cuid())
+  documentId String   @map("document_id")
+  sessionId  String   @map("session_id")
+  result     Json
+  modelUsed  String   @map("model_used")
+  usage      Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+  @@index([sessionId])
+  @@map("analyses")
+}
